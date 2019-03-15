@@ -1,0 +1,195 @@
+needsPackage "PosChar"
+
+testOfHyperSurfaceBehavior = method();
+
+testOfHyperSurfaceBehavior(ZZ,ZZ,ZZ,ZZ) := (n,p,d,dimen) -> (  				--tests all hypersurfaces of degree d in A^3(F_p^n)
+	K := GF(p,n,Variable=>b);
+	S := K[X_1 .. X_dimen];						--Creates the ring F_(p^n)[x,y,z]
+	LinearVars := vars S;
+	NumberOvars := numColumns(LinearVars);
+	BasisDegd := basis(d,S);
+	N := (numColumns BasisDegd);
+	Indexer := 1;
+	
+	TotalF := (p^n)^(N);
+
+--	ListForCoeffsOfF = MakeListNManyElements(N,0) .. MakeListNManyElements(N,p^n-2);
+--	while (Indexer < N-1) do (
+--		MinList = MakeListNManyElements(N,0);
+--		MaxList = MakeListNManyElements(Indexer,-1) | MakeListNManyElements(N-Indexer,p^n-2);
+--		AdjoinedList = MinList .. MaxList;
+--		ListForCoeffsOfF = ListForCoeffsOfF | AdjoinedList;
+--		Indexer = Indexer+1;
+--	);
+	
+--	TotalF = # ListForCoeffsOfF;
+
+	print TotalF;
+
+	ListForCoeffsOfL = MakeListNManyElements(NumberOvars-1,0) .. MakeListNManyElements(NumberOvars-1,p^n-2);
+	Lines = # ListForCoeffsOfL;
+
+	k = 0;
+	BoolVar = true;
+	while(k<TotalF and BoolVar==true) do (			--Looping through possible F of degree d
+		ListForF = getCoefficientListFromInteger(k,p^n,N);
+		
+		elem = ListForF#0;
+		if (elem == 0) then (
+			MatrixFieldF = matrix{{sub(0,S)}};
+		)
+		else (
+			MatrixFieldF = matrix{{sub(b^(elem-1),S)}};
+		);
+
+		i=1;
+		while(i<N) do (					--Creates the F by use of possible coefficients times each element of the basis
+			elem = ListForF#i;
+			if (elem == 0) then(
+				MatrixFieldF = MatrixFieldF | matrix{{sub(0,S)}};
+			)
+			else (
+				MatrixFieldF = MatrixFieldF | matrix{{sub(b^(elem-1),S)}};
+			);
+			i = i+1;
+		);
+
+		MatrixFieldF = transpose(MatrixFieldF);
+		F = (first entries(BasisDegd * MatrixFieldF))#0;
+		I = ideal(F);					--Computes \Phi(F_*(I))
+		I = ethRoot(I,1);
+		I = saturate(I);
+
+		i=0;
+		
+		BoolVar2 := false;				--Assume that \Phi(F_*(ideal(f)))^sat != \Phi(F_*(ideal(f*l^(p-1))))^sat
+
+		while(i<Lines and BoolVar2==false) do (		--Tests Examples one by one in terms of l, and if it finds one it stops the loop
+			j=0;
+			Vect =  matrix{{sub(1,S)}};
+			ListForCoeffsOfLi = ListForCoeffsOfL#i;
+			while (j<NumberOvars-1) do(
+				Vect = Vect | matrix{{sub(b^(ListForCoeffsOfLi#j),S)}};
+				j=j+1;
+			);
+			Vect = transpose(Vect);
+			l = (first entries(LinearVars*Vect))#0;
+			J = ideal(F*l^(p-1));
+			J = saturate(ethRoot(J,1));
+			BoolVar2 = (I == J);
+			i = i+1;
+		);
+		
+		BoolVar = BoolVar2;
+		
+		if (k%10000 == 0) then print (k/TotalF);				--Debugging to see percentage
+
+		k=k+1;
+	);
+
+	if (BoolVar==false) then (
+		print Boolvar; print F;
+	)
+	else if (BoolVar==true) then (
+		print BoolVar;
+	);
+);
+
+------------------------------------------------
+
+getCoefficientListFromInteger = method()
+getCoefficientListFromInteger(ZZ,ZZ,ZZ) := (i,pton,entryCount) -> (
+	apply(entryCount, z -> (floor(i/pton^z)%pton))
+)
+
+------------------------------------------------
+
+MakeListNManyElements = method()
+MakeListNManyElements(ZZ,ZZ) := (M,r) -> (
+	NList := {r};
+	i:=1;
+	while (i<M) do (
+		NList = NList | {r};
+		i = i+1;
+	);
+	NList
+);
+
+------------------------------------------------
+--	Special Cases	------------------------
+------------------------------------------------
+
+testOfHyperSurfaceBehavior(Ring,ZZ) := (S,d) -> (		--Utilize for a given ring
+	Bool := isPolynomialRing(S);
+	if (Bool == false) then (
+		print "Not Polynomial Ring!";
+	)
+	else(
+		K = coefficientRing S;
+		p := char K;
+		if (p == 0) then (
+			print "Not Positive Characteristic!";
+		)
+		else (
+			FieldRing := ambient K;
+			J := ideal FieldRing;
+			degreeExt := degree(J_0);
+			degreeExt = degreeExt#0;
+			dimen := dim S;
+			testOfHyperSurfaceBehavior(degreeExt,p,d,dimen)	
+		);
+	);
+);
+
+testForElement = method();
+testForElement(RingElement,ZZ) := (F,n) -> (
+	S := ring(F);
+	K := coefficientRing S;
+	p := char K;
+	K = GF(p^n,Variable=>b);
+	newS := K[first entries (vars S)];
+	newVars := vars newS;
+	dimen := numColumns newVars;
+	F = sub(F,newS);
+
+	Lines = p^(n*dimen);
+
+	I = ideal(F);					--Computes \Phi(F_*(I))
+	I = ethRoot(I,1);
+	I = saturate(I);
+
+	BoolVar2 := false;				--Assume that \Phi(F_*(ideal(f)))^sat != \Phi(F_*(ideal(f*l^(p-1))))^sat
+	i=0;
+	while(i<Lines and BoolVar2==false) do (		--Tests Examples one by one in terms of l, and if it finds one it stops the loop
+		Linei := getCoefficientListFromInteger(i,p^n,dimen);
+		elem = Linei#0;
+		if (elem == 0) then (
+			Vect = matrix{{sub(0,newS)}};
+		)
+		else (
+			Vect = matrix{{sub(b^(elem-1),newS)}};
+		);
+
+		j=1;
+		while (j<dimen) do(
+			elem = Linei#j;
+			if (elem == 0) then (
+				Vect = Vect | matrix{{sub(0,newS)}};
+			)
+			else (
+				Vect = Vect | rmatrix{{sub(b^(elem-1),newS)}};
+			);
+			j= j+1;
+		);
+		Vect = transpose(Vect);
+		l = (first entries(newVars*Vect))#0;
+		J = ideal(F*l^(p-1));
+		J = saturate(ethRoot(J,1));
+		BoolVar2 = (I == J);
+		i = i+1;
+	);
+
+	print BoolVar2;
+		
+);
+

@@ -1,0 +1,148 @@
+needsPackage "PosChar"
+
+TestOfSurfaceBehavior = (n,p,d) -> (  				--tests all hypersurfaces of degree d in A^3(F_p^n)
+	K = GF(p,n,Variable=>b);
+	S = K[x,y,z];						--Creates the ring F_(p^n)[x,y,z]
+	LinearVars = vars S;
+	NumberOvars = numColumns(LinearVars);
+	BasisDegd = basis(d,S);
+	N = (numColumns BasisDegd)-1;
+
+	ListForCoeffsOfF = MakeListNManyElements(N,0) .. MakeListNManyElements(N,p^n-2);
+	
+	
+	
+	TotalF = # ListForCoeffsOfF;
+	print TotalF;
+
+	ListForCoeffsOfL = MakeListNManyElements(NumberOvars-1,0) .. MakeListNManyElements(NumberOvars-1,p^n-2);
+	Lines = # ListForCoeffsOfL;
+
+	k = 0;
+	BoolVar = true;
+	while(k<TotalF and BoolVar==true) do (			--Looping through possible F of degree d
+		MatrixFieldF = matrix{{sub(1,S)}};
+		i=0;
+		while(i<N) do (					--Creates the F by use of possible coefficients times each element of the basis
+			MatrixFieldF = MatrixFieldF | matrix{{sub(b^(ListForCoeffsOfF#k#i),S)}};
+			i = i+1;
+		);
+		MatrixFieldF = transpose(MatrixFieldF);
+		F = (first entries(BasisDegd * MatrixFieldF))#0;
+		I = ideal(F);					--Computes \Phi(F_*(I))
+		I = ethRoot(I,1);
+		I = saturate(I);
+
+		i=0;
+		
+		BoolVar2 := false;				--Assume that \Phi(F_*(ideal(f)))^sat != \Phi(F_*(ideal(f*l^(p-1))))^sat
+
+		while(i<Lines and BoolVar2==false) do (		--Tests Examples one by one in terms of l, and if it finds one it stops the loop
+			j=0;
+			Vect =  matrix{{sub(1,S)}};
+			ListForCoeffsOfLi = ListForCoeffsOfL#i;
+			while (j<NumberOvars-1) do(
+				Vect = Vect | matrix{{sub(b^(ListForCoeffsOfLi#j),S)}};
+				j=j+1;
+			);
+			Vect = transpose(Vect);
+			l = (first entries(LinearVars*Vect))#0;
+			J = ideal(F*l^(p-1));
+			J = saturate(ethRoot(J,1));
+			BoolVar2 = (I == J);
+			i = i+1;
+		);
+		
+		BoolVar = BoolVar2;
+		
+		print (k/TotalF);				--Debugging to see percentage
+
+		k=k+1;
+	);
+
+	if (BoolVar==false) then (
+		print Boolvar; print F;
+	)
+	else if (BoolVar==true) then (
+		print BoolVar;
+	);
+);
+
+------------------------------------------------
+
+MakeListNManyElements = (N,r) -> (
+	NList = {r};
+	i=1;
+	while (i<N) do (
+		NList = NList | {r};
+		i = i+1;
+	);
+	NList
+);
+
+-------------------------------------------------------------------------
+
+TestOfThreefoldBehavior = (n,p,d) -> (  				--tests all hypersurfaces of degree d in A^3(F_p^n)
+	K = GF(p,n,Variable=>b);
+	S = K[x,y,z,w];						--Creates the ring F_(p^n)[x,y,z]
+	LinearVars = vars S;
+	NumberOvars = numColumns(LinearVars);
+	BasisDegd = basis(d,S);
+	N = (numColumns BasisDegd)-1;
+
+	ListForCoeffsOfF = MakeListNManyElements(N,0) .. MakeListNManyElements(N,p^n-2);
+	TotalF = # ListForCoeffsOfF;
+	print TotalF;
+
+	ListForCoeffsOfL = MakeListNManyElements(NumberOvars-1,0) .. MakeListNManyElements(NumberOvars-1,p^n-2);
+	Lines = # ListForCoeffsOfL;
+
+	k = 0;
+	BoolVar = true;
+	while(k<TotalF and BoolVar==true) do (			--Looping through possible F of degree d
+		MatrixFieldF = matrix{{sub(1,S)}};
+		i=0;
+		while(i<N) do (					--Creates the F by use of possible coefficients times each element of the basis
+			MatrixFieldF = MatrixFieldF | matrix{{sub(b^(ListForCoeffsOfF#k#i),S)}};
+			i = i+1;
+		);
+		MatrixFieldF = transpose(MatrixFieldF);
+		F = (first entries(BasisDegd * MatrixFieldF))#0;
+		I = ideal(F);					--Computes \Phi(F_*(I))
+		I = ethRoot(I,1);
+		I = saturate(I);
+
+		i=0;
+		
+		BoolVar2 := false;				--Assume that \Phi(F_*(ideal(f)))^sat != \Phi(F_*(ideal(f*l^(p-1))))^sat
+
+		while(i<Lines and BoolVar2==false) do (		--Tests Examples one by one in terms of l, and if it finds one it stops the loop
+			j=0;
+			Vect =  matrix{{sub(1,S)}};
+			ListForCoeffsOfLi = ListForCoeffsOfL#i;
+			while (j<NumberOvars-1) do(
+				Vect = Vect | matrix{{sub(b^(ListForCoeffsOfLi#j),S)}};
+				j=j+1;
+			);
+			Vect = transpose(Vect);
+			l = (first entries(LinearVars*Vect))#0;
+			J = ideal(F*l^(p-1));
+			J = saturate(ethRoot(J,1));
+			BoolVar2 = (I == J);
+			i = i+1;
+		);
+		
+		BoolVar = BoolVar2;
+		
+		print (k/TotalF);				--Debugging to see percentage
+
+		k=k+1;
+	);
+
+	if (BoolVar==false) then (
+		print Boolvar; print F;
+	)
+	else if (BoolVar==true) then (
+		print BoolVar;
+	);
+);

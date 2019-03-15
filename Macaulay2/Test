@@ -1,0 +1,15 @@
+load "TestForSigmaBetertini.m2";
+A = ZZ/2[x,y];
+I = ideal(x*y);
+B = A/I;
+C = ZZ/2[z];
+f = map(B, A);
+g = map(B, C, {x^2+y});
+l1 = pullback(f,g);
+vlist = first entries vars (ambient l1#0);
+ambPull = ambient l1#0;
+ambId = ideal l1#0;
+
+J = ideal(IGen1^3 * CGensInA1^1 * KGens1^3 * KGens2^0 + IGen1^4 * CGensInA1^1 * KGens1^1 * KGens2^1 + IGen1^2 * CGensInA1^2 * KGens1^2 * KGens2^1 + IGen1^1 * CGensInA1^0 * KGens1^5 * KGens2^0 + IGen1^0 * CGensInA1^1 * KGens1^4 * KGens2^1 + IGen1^3 * CGensInA1^0 * KGens1^1 * KGens2^2 + IGen1^1 * CGensInA1^1 * KGens1^2 * KGens2^2, IGen1^4 * CGensInA1^1 * KGens1^2 * KGens2^0 + IGen1^5 * CGensInA1^1 * KGens1^0 * KGens2^1 + IGen1^3 * CGensInA1^2 * KGens1^1 * KGens2^1 + IGen1^2 * CGensInA1^0 * KGens1^4 * KGens2^0 + IGen1^1 * CGensInA1^1 * KGens1^3 * KGens2^1 + IGen1^4 * CGensInA1^0 * KGens1^0 * KGens2^2 + IGen1^2 * CGensInA1^1 * KGens1^1 * KGens2^2);
+
+testForElement(J,n);	--here n is the degree of the field extension you wish to test

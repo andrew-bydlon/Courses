@@ -1,0 +1,192 @@
+
++ M2 --no-readline --print-width 79
+Macaulay2, version 1.8.2.1
+with packages: ConwayPolynomials, Elimination, IntegralClosure, LLLBases,
+               PrimaryDecomposition, ReesAlgebra, TangentCone
+
+i1 : loadPackage "PosChar"
+stdio:1:1:(3): error: mutable unexported unset symbol(s) in package PosChar: 'module2Ideal'
+PosChar.m2:2339:40-2339:52: here is the first use of 'module2Ideal'
+
+i2 : loadPackage "PosChar"
+
+o2 = PosChar
+
+o2 : Package
+
+i3 : loadPackage "Pullback"
+
+o3 = Pullback
+
+o3 : Package
+
+i4 :   A = ZZ/2[x,y];
+  I = ideal(x*y);
+  B = A/I;
+  C = ZZ/2[z];
+  f = map(B, A);
+  g = map(B, C, {x^2+y});
+  l1 = pullback(f,g);
+  vlist = first entries vars (ambient l1#0);
+  ambPull = ambient l1#0;
+  ambId = ideal l1#0;
+
+i5 : 
+o5 : Ideal of A
+
+i6 : 
+i7 : 
+i8 : 
+o8 : RingMap B <--- A
+
+i9 : 
+o9 : RingMap B <--- C
+
+i10 : 
+i11 : 
+i12 : 
+i13 : 
+o13 : Ideal of ambPull
+
+i14 : findGeneratingMorphisms(ambId)
+
+o14 = ((0, 0), (cokernel | KGens2  KGens1                IGen1  |, |
+                         | IGen1^2 IGen1CGensInA1+KGens2 KGens1 |  |
+      -------------------------------------------------------------------------
+      IGen1^3KGens1+KGens1^2KGens2+IGen1KGens2^2                        
+      IGen1^3CGensInA1KGens1+IGen1^2KGens1KGens2+CGensInA1KGens1^2KGens2
+      -------------------------------------------------------------------------
+      IGen1^4+IGen1KGens1KGens2+CGensInA1KGens2^2             |))
+      IGen1^3KGens2+IGen1CGensInA1KGens1KGens2+KGens1KGens2^2 |
+
+o14 : Sequence
+
+i15 : t#0
+stdio:15:2:(3): error: expected a list, hash table, or sequence
+
+i16 : t = o14
+
+o16 = ((0, 0), (cokernel | KGens2  KGens1                IGen1  |, |
+                         | IGen1^2 IGen1CGensInA1+KGens2 KGens1 |  |
+      -------------------------------------------------------------------------
+      IGen1^3KGens1+KGens1^2KGens2+IGen1KGens2^2                        
+      IGen1^3CGensInA1KGens1+IGen1^2KGens1KGens2+CGensInA1KGens1^2KGens2
+      -------------------------------------------------------------------------
+      IGen1^4+IGen1KGens1KGens2+CGensInA1KGens2^2             |))
+      IGen1^3KGens2+IGen1CGensInA1KGens1KGens2+KGens1KGens2^2 |
+
+o16 : Sequence
+
+i17 : t#0
+
+o17 = (0, 0)
+
+o17 : Sequence
+
+i18 : t#1
+
+o18 = (cokernel | KGens2  KGens1                IGen1  |, |
+                | IGen1^2 IGen1CGensInA1+KGens2 KGens1 |  |
+      -------------------------------------------------------------------------
+      IGen1^3KGens1+KGens1^2KGens2+IGen1KGens2^2                        
+      IGen1^3CGensInA1KGens1+IGen1^2KGens1KGens2+CGensInA1KGens1^2KGens2
+      -------------------------------------------------------------------------
+      IGen1^4+IGen1KGens1KGens2+CGensInA1KGens2^2             |)
+      IGen1^3KGens2+IGen1CGensInA1KGens1KGens2+KGens1KGens2^2 |
+
+o18 : Sequence
+
+i19 : t#2
+stdio:19:2:(3): error: array index 2 out of bounds 0 .. 1
+
+i20 : (t#1)#1
+
+o20 = | IGen1^3KGens1+KGens1^2KGens2+IGen1KGens2^2                        
+      | IGen1^3CGensInA1KGens1+IGen1^2KGens1KGens2+CGensInA1KGens1^2KGens2
+      -------------------------------------------------------------------------
+      IGen1^4+IGen1KGens1KGens2+CGensInA1KGens2^2             |
+      IGen1^3KGens2+IGen1CGensInA1KGens1KGens2+KGens1KGens2^2 |
+
+                    2             2
+o20 : Matrix ambPull  <--- ambPull
+
+i21 : nonFInjectiveLocus(ambId)
+
+                                                       2
+o21 = ideal (1, KGens1, IGen1*CGensInA1 + KGens2, IGen1 )
+
+o21 : Ideal of ambPull
+
+i22 : canonicalIdeal(ambId)
+PosChar.m2:2452:15:(3):[2]: error: no method found for applying ambient to:
+     argument   :                     2        2             . (of class Ideal)
+                   ideal (IGen1*KGens1  + IGen1 KGens2 + CGen.
+PosChar.m2:2452:15:(3):[2]: --entering debugger (type help to see debugger commands)
+PosChar.m2:2452:15-2452:23: --source code:
+        S1 := ambient R1;
+
+ii23 : canonicalIdeal(l1#0)
+PosChar.m2:2469:24:(3):[3]: error: expected matrices with the same target
+PosChar.m2:2465:9:(3):[2]: --back trace--
+
+ii24 : l1#0
+
+                                                                                                                                                                    ambPull
+oo24 = --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                    2        2                                       2                                        2       2                  2                      3                                 2               3                                         2           3             2         5                   2      2         4
+       (IGen1*KGens1  + IGen1 KGens2 + CGensInA1*KGens1*KGens2, IGen1 KGens1 + IGen1*CGensInA1*KGens2 + KGens2 , IGen1 CGensInA1 + KGens1  + IGen1*KGens2, IGen1  + KGens1*KGens2, IGen1*CGensInA1 KGens2 + KGens1  + IGen1*KGens1*KGens2 + CGensInA1*KGens2 , CGensInA1 KGens1*KGens2  + KGens1  + CGensInA1*KGens1 KGens2  + KGens2 )
+
+oo24 : QuotientRing
+
+ii25 : break
+
+i26 : moduleToIdeal((Ext^2(ambPull^1/ambId, ambPull^1))**(l1#0))
+stdio:23:1:(3): error: no method for adjacent objects:
+--            moduleToIdeal (of class Symbol)
+--    SPACE   cokernel | KGens2  KGens1                IGen1 . (of class Module)
+--                     | IGen1^2 IGen1CGensInA1+KGens2 KGens1.
+
+i27 : loadPackage "Divisor"
+--warning: symbol "moduleToIdeal" in User#"private dictionary" is shadowed by a symbol in Divisor.Dictionary
+--  use the synonym moduleToIdeal$0
+
+o27 = Divisor
+
+o27 : Package
+
+i28 : moduleToIdeal((Ext^2(ambPull^1/ambId, ambPull^1))**(l1#0))
+
+o28 = ideal (KGens1, IGen1)
+
+                                                                                                                                                                            ambPull
+o28 : Ideal of --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                            2        2                                       2                                        2       2                  2                      3                                 2               3                                         2           3             2         5                   2      2         4
+               (IGen1*KGens1  + IGen1 KGens2 + CGensInA1*KGens1*KGens2, IGen1 KGens1 + IGen1*CGensInA1*KGens2 + KGens2 , IGen1 CGensInA1 + KGens1  + IGen1*KGens2, IGen1  + KGens1*KGens2, IGen1*CGensInA1 KGens2 + KGens1  + IGen1*KGens1*KGens2 + CGensInA1*KGens2 , CGensInA1 KGens1*KGens2  + KGens1  + CGensInA1*KGens1 KGens2  + KGens2 )
+
+i29 : sub(o28, ambPull)
+
+o29 = ideal (KGens1, IGen1)
+
+o29 : Ideal of ambPull
+
+i30 : finduOfIdeal(o29, ambId)
+
+           3                2        4                  
+o30 = IGen1 CGensInA1*KGens1  + IGen1 CGensInA1*KGens2 +
+      -------------------------------------------------------------------------
+           2         2                            4                   3        
+      IGen1 CGensInA1 KGens1*KGens2 + IGen1*KGens1  + CGensInA1*KGens1 KGens2 +
+      -------------------------------------------------------------------------
+           3      2                                2
+      IGen1 KGens2  + IGen1*CGensInA1*KGens1*KGens2
+
+o30 : ambPull
+
+i31 : vars ambPull
+
+o31 = | IGen1 CGensInA1 KGens1 KGens2 |
+
+                    1             4
+o31 : Matrix ambPull  <--- ambPull
+
+i32 : 

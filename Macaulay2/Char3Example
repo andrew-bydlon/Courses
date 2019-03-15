@@ -1,0 +1,553 @@
+
++ M2 --no-readline --print-width 79
+Macaulay2, version 1.8.2.1
+with packages: ConwayPolynomials, Elimination, IntegralClosure, LLLBases,
+               PrimaryDecomposition, ReesAlgebra, TangentCone
+
+i1 : R = QQ[x,y,z,w]
+
+o1 = R
+
+o1 : PolynomialRing
+
+i2 : I = ideal(z^2, z*w, w^2, x*z-y*w)
+
+             2        2
+o2 = ideal (z , z*w, w , x*z - y*w)
+
+o2 : Ideal of R
+
+i3 : primaryDecomposition I
+
+              2        2
+o3 = {ideal (w , z*w, z , x*z - y*w)}
+
+o3 : List
+
+i4 : ass I
+
+o4 = {ideal (w, z)}
+
+o4 : List
+
+i5 : singularLocus I
+
+                                                            R
+o5 = ---------------------------------------------------------------------------------------------------------------
+       2        2               2          2     2                      2    2                             2
+     (z , z*w, w , x*z - y*w, 2z , 4z*w, 2w , -2z , 2z*w, -2y*z, -z*w, w , -z , z*w, - x*z - y*w, -2z*w, 2w , -2x*w)
+
+o5 : QuotientRing
+
+i6 : ideal singularLocus I
+
+             2        2               2          2     2                    
+o6 = ideal (z , z*w, w , x*z - y*w, 2z , 4z*w, 2w , -2z , 2z*w, -2y*z, -z*w,
+     --------------------------------------------------------------------------
+      2    2                             2
+     w , -z , z*w, - x*z - y*w, -2z*w, 2w , -2x*w)
+
+o6 : Ideal of R
+
+i7 : radical ideal singularLocus I
+
+o7 = ideal (w, z)
+
+o7 : Ideal of R
+
+i8 : restart
+Macaulay2, version 1.8.2.1
+with packages: ConwayPolynomials, Elimination, IntegralClosure, LLLBases,
+               PrimaryDecomposition, ReesAlgebra, TangentCone
+
+i1 : R = QQ[x,y,z,w]
+
+o1 = R
+
+o1 : PolynomialRing
+
+i2 : I = ideal(z^2, z*w, w^2, x*z-y*w)
+
+             2        2
+o2 = ideal (z , z*w, w , x*z - y*w)
+
+o2 : Ideal of R
+
+i3 : J = ideal(z,w)
+
+o3 = ideal (z, w)
+
+o3 : Ideal of R
+
+i4 : A = QQ[a,b]
+
+o4 = A
+
+o4 : PolynomialRing
+
+i5 : f = map(R/I, A, {x, y})
+
+                     R
+o5 = map(------------------------,A,{x, y})
+           2        2
+         (z , z*w, w , x*z - y*w)
+
+                         R
+o5 : RingMap ------------------------ <--- A
+               2        2
+             (z , z*w, w , x*z - y*w)
+
+i6 : loadPackage "pushForward"
+stdio:6:1:(3): error: file not found on path: "pushForward.m2"
+
+i7 : loadPackage "PushForward"
+
+o7 = PushForward
+
+o7 : Package
+
+i8 : pushFwd f
+
+o8 = (cokernel {0} | 0  |, | 1 z w |,
+               {1} | a  |
+               {1} | -b |
+     --------------------------------------------------------------------------
+     {*Function[.Macaulay2/local/share/Macaulay2/PushForward.m2:31:18-31:32]*})
+
+o8 : Sequence
+
+i9 : prune (o8#0)
+
+o9 = cokernel {0} | 0  |
+              {1} | a  |
+              {1} | -b |
+
+                            3
+o9 : A-module, quotient of A
+
+i10 : isFree o9
+stdio:10:1:(3): error: no method for adjacent objects:
+--            isFree (of class Symbol)
+--    SPACE   cokernel {0} | 0  | (of class Module)
+--                     {1} | a  |
+--                     {1} | -b |
+
+i11 : res o9
+
+       3      1
+o11 = A  <-- A  <-- 0
+                     
+      0      1      2
+
+o11 : ChainComplex
+
+i12 : restart
+Macaulay2, version 1.8.2.1
+with packages: ConwayPolynomials, Elimination, IntegralClosure, LLLBases,
+               PrimaryDecomposition, ReesAlgebra, TangentCone
+
+i1 : loadPackage "Pullback"
+
+o1 = Pullback
+
+o1 : Package
+
+i2 : A = ZZ/3[x,y];
+  I = ideal(x*y);
+  B = A/I;
+  C = ZZ/3[z];
+  f = map(B, A);
+  g = map(B, C, {x^3+y});
+  l1 = pullback(f,g);
+
+i3 : 
+o3 : Ideal of A
+
+i4 : 
+i5 : 
+i6 : 
+o6 : RingMap B <--- A
+
+i7 : 
+o7 : RingMap B <--- C
+
+i8 : 
+i9 : l1#0
+
+                                                                                                                                                                                                                                              ZZ
+                                                                                                                                                                                                                                              --[IGen1, CGensInA1, KGens1, KGens2, KGens3]
+                                                                                                                                                                                                                                               3
+o9 = -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            2                                                                             2                                2               2       2                                                                                                       2       2                             2                                               3                           2                                      2                2                2           2                            2                                3
+     (KGens1  - IGen1*KGens3, IGen1*KGens1*KGens2 - CGensInA1*KGens2*KGens3 + IGen1*KGens3 , IGen1*CGensInA1*KGens2 - IGen1 KGens3 - KGens2 , IGen1 KGens2 - CGensInA1*KGens1*KGens2 + IGen1*KGens1*KGens3, IGen1*CGensInA1*KGens1 - KGens1*KGens2 - KGens3 , IGen1 KGens1 - KGens2*KGens3, IGen1 CGensInA1 - IGen1*KGens2 - KGens1*KGens3, IGen1  - KGens1*KGens2, CGensInA1 KGens2*KGens3 - IGen1*CGensInA1*KGens3  - KGens1*KGens2  - KGens2*KGens3 , CGensInA1 KGens1*KGens2 - IGen1*KGens2  + KGens1*KGens2*KGens3 - KGens3 )
+
+o9 : QuotientRing
+
+i10 : dim o9
+
+o10 = 2
+
+i11 : loadPackage "FrobPackageTest"
+stdio:11:1:(3): error: file not found on path: "FrobPackageTest.m2"
+
+i12 : loadPackage "FrobPackageTest"
+
+o12 = FrobPackageTest
+
+o12 : Package
+
+i13 : S1 = ambient l1#0
+
+o13 = S1
+
+o13 : PolynomialRing
+
+i14 : I1 = ideal l1#0
+
+                   2                                      
+o14 = ideal (KGens1  - IGen1*KGens3, IGen1*KGens1*KGens2 -
+      -------------------------------------------------------------------------
+                                            2                          
+      CGensInA1*KGens2*KGens3 + IGen1*KGens3 , IGen1*CGensInA1*KGens2 -
+      -------------------------------------------------------------------------
+           2               2       2                                  
+      IGen1 KGens3 - KGens2 , IGen1 KGens2 - CGensInA1*KGens1*KGens2 +
+      -------------------------------------------------------------------------
+                                                                          2 
+      IGen1*KGens1*KGens3, IGen1*CGensInA1*KGens1 - KGens1*KGens2 - KGens3 ,
+      -------------------------------------------------------------------------
+           2                             2                          
+      IGen1 KGens1 - KGens2*KGens3, IGen1 CGensInA1 - IGen1*KGens2 -
+      -------------------------------------------------------------------------
+                          3                           2               
+      KGens1*KGens3, IGen1  - KGens1*KGens2, CGensInA1 KGens2*KGens3 -
+      -------------------------------------------------------------------------
+                            2                2                2 
+      IGen1*CGensInA1*KGens3  - KGens1*KGens2  - KGens2*KGens3 ,
+      -------------------------------------------------------------------------
+               2                            2                                3
+      CGensInA1 KGens1*KGens2 - IGen1*KGens2  + KGens1*KGens2*KGens3 - KGens3 )
+
+o14 : Ideal of S1
+
+i15 : vars S1
+
+o15 = | IGen1 CGensInA1 KGens1 KGens2 KGens3 |
+
+               1        5
+o15 : Matrix S1  <--- S1
+
+i16 : M1 := Ext^(dS - dR)(S1^1/I1, S1^1);
+stdio:16:15:(3): error: no method for binary operator - applied to objects:
+--            dS (of class Symbol)
+--      -     dR (of class Symbol)
+
+i17 : dS = dim S1
+
+o17 = 5
+
+i18 : R1 = l1#0
+
+o18 = R1
+
+o18 : QuotientRing
+
+i19 : dR = dim R1
+
+o19 = 2
+
+i20 : M1 := Ext^(dS - dR)(S1^1/I1, S1^1);
+stdio:20:1:(3): warning: local declaration of M1 shields variable with same name
+
+i21 : canIdeal := moduleToIdeal(R1, M1**R1);
+	canIdealLifted := sub(canIdeal, S1);
+stdio:21:13:(3): error: no method for adjacent objects:
+--            moduleToIdeal (of class Symbol)
+--    SPACE   (R1, cokernel | IGen1KGens1  KGens2   IGen1CG. (of class Sequence)
+--                          | 0            0        KGens3 .
+--                          | -IGen1KGens3 -IGen1^2 0      .
+
+i22 : stdio:22:27:(3): error: no method found for applying substitute to:
+     argument 1 :  null (of class Nothing)
+     argument 2 :  S1 (of class PolynomialRing)
+
+i23 : loadPackage("Divisor", Reload=>true)
+--warning: symbol "moduleToIdeal" in User#"private dictionary" is shadowed by a symbol in Divisor.Dictionary
+--  use the synonym moduleToIdeal$0
+
+o23 = Divisor
+
+o23 : Package
+
+i24 : canIdeal := moduleToIdeal(R1, M1**R1);
+	canIdealLifted := sub(canIdeal, S1);
+stdio:24:1:(3): warning: local declaration of canIdeal shields variable with same name
+
+o24 : Ideal of R1
+
+i25 : stdio:25:9:(3): warning: local declaration of canIdealLifted shields variable with same name
+
+o25 : Ideal of S1
+
+i26 : canIdeal = canIdealLifted + I1
+
+                                          2                                    
+o26 = ideal (KGens3, KGens1, IGen1, KGens1  - IGen1*KGens3, IGen1*KGens1*KGens2
+      -------------------------------------------------------------------------
+                                              2                          
+      - CGensInA1*KGens2*KGens3 + IGen1*KGens3 , IGen1*CGensInA1*KGens2 -
+      -------------------------------------------------------------------------
+           2               2       2                                  
+      IGen1 KGens3 - KGens2 , IGen1 KGens2 - CGensInA1*KGens1*KGens2 +
+      -------------------------------------------------------------------------
+                                                                          2 
+      IGen1*KGens1*KGens3, IGen1*CGensInA1*KGens1 - KGens1*KGens2 - KGens3 ,
+      -------------------------------------------------------------------------
+           2                             2                          
+      IGen1 KGens1 - KGens2*KGens3, IGen1 CGensInA1 - IGen1*KGens2 -
+      -------------------------------------------------------------------------
+                          3                           2               
+      KGens1*KGens3, IGen1  - KGens1*KGens2, CGensInA1 KGens2*KGens3 -
+      -------------------------------------------------------------------------
+                            2                2                2 
+      IGen1*CGensInA1*KGens3  - KGens1*KGens2  - KGens2*KGens3 ,
+      -------------------------------------------------------------------------
+               2                            2                                3
+      CGensInA1 KGens1*KGens2 - IGen1*KGens2  + KGens1*KGens2*KGens3 - KGens3 )
+
+o26 : Ideal of S1
+
+i27 : Ip := frobeniusPower(defIdeal, 1);
+stdio:27:7:(3): error: no method found for applying frobeniusPower to:
+     argument 1 :  defIdeal (of class Symbol)
+     argument 2 :  1 (of class ZZ)
+
+i28 : defIdeal = I1
+
+                   2                                      
+o28 = ideal (KGens1  - IGen1*KGens3, IGen1*KGens1*KGens2 -
+      -------------------------------------------------------------------------
+                                            2                          
+      CGensInA1*KGens2*KGens3 + IGen1*KGens3 , IGen1*CGensInA1*KGens2 -
+      -------------------------------------------------------------------------
+           2               2       2                                  
+      IGen1 KGens3 - KGens2 , IGen1 KGens2 - CGensInA1*KGens1*KGens2 +
+      -------------------------------------------------------------------------
+                                                                          2 
+      IGen1*KGens1*KGens3, IGen1*CGensInA1*KGens1 - KGens1*KGens2 - KGens3 ,
+      -------------------------------------------------------------------------
+           2                             2                          
+      IGen1 KGens1 - KGens2*KGens3, IGen1 CGensInA1 - IGen1*KGens2 -
+      -------------------------------------------------------------------------
+                          3                           2               
+      KGens1*KGens3, IGen1  - KGens1*KGens2, CGensInA1 KGens2*KGens3 -
+      -------------------------------------------------------------------------
+                            2                2                2 
+      IGen1*CGensInA1*KGens3  - KGens1*KGens2  - KGens2*KGens3 ,
+      -------------------------------------------------------------------------
+               2                            2                                3
+      CGensInA1 KGens1*KGens2 - IGen1*KGens2  + KGens1*KGens2*KGens3 - KGens3 )
+
+o28 : Ideal of S1
+
+i29 : Ip := frobeniusPower(defIdeal, 1);
+stdio:29:1:(3): warning: local declaration of Ip shields variable with same name
+
+o29 : Ideal of S1
+
+i30 : tempIdeal := intersect( (frobeniusPower(canIdeal, 1)) : canIdeal, Ip : defIdeal );
+
+o30 : Ideal of S1
+
+i31 : M1 := compress ((gens trim tempIdeal)%(gens Ip));
+stdio:31:1:(3): warning: local declaration of M1 shields variable with same name
+
+               1        1
+o31 : Matrix S1  <--- S1
+
+i32 : entriesList = first entries M`
+stdio:32:30:(3): error: invalid character
+
+i32 : entriesList = first entries M1
+
+            5         2      5              8                2               
+o32 = {IGen1 CGensInA1 KGens1 KGens2 + IGen1 CGensInA1*KGens1 KGens2*KGens3 +
+      -------------------------------------------------------------------------
+           7         2                    2        8                       3  
+      IGen1 CGensInA1 KGens1*KGens2*KGens3  + IGen1 CGensInA1*KGens1*KGens3  +
+      -------------------------------------------------------------------------
+           4                5      2        5      5               
+      IGen1 CGensInA1*KGens1 KGens2  - IGen1 KGens1 KGens2*KGens3 +
+      -------------------------------------------------------------------------
+           7      2      2              5                3      2        
+      IGen1 KGens1 KGens2 KGens3 + IGen1 CGensInA1*KGens1 KGens2 KGens3 +
+      -------------------------------------------------------------------------
+           3         2      4      2        
+      IGen1 CGensInA1 KGens1 KGens2 KGens3 +
+      -------------------------------------------------------------------------
+           4                4             2        8      2      2  
+      IGen1 CGensInA1*KGens1 KGens2*KGens3  + IGen1 KGens2 KGens3  +
+      -------------------------------------------------------------------------
+           6                       2      2  
+      IGen1 CGensInA1*KGens1*KGens2 KGens3  +
+      -------------------------------------------------------------------------
+           4         2      2      2      2        5      4      3  
+      IGen1 CGensInA1 KGens1 KGens2 KGens3  + IGen1 KGens1 KGens3  -
+      -------------------------------------------------------------------------
+           7                    3        5                2             3  
+      IGen1 KGens1*KGens2*KGens3  + IGen1 CGensInA1*KGens1 KGens2*KGens3  +
+      -------------------------------------------------------------------------
+           5         2      2      3        6      2      4  
+      IGen1 CGensInA1 KGens2 KGens3  + IGen1 KGens1 KGens3  +
+      -------------------------------------------------------------------------
+           6                       4        7      5  
+      IGen1 CGensInA1*KGens2*KGens3  + IGen1 KGens3  +
+      -------------------------------------------------------------------------
+           2                4      3                  2      5      3        
+      IGen1 CGensInA1*KGens1 KGens2 KGens3 + CGensInA1 KGens1 KGens2 KGens3 -
+      -------------------------------------------------------------------------
+           3      4      2      2                         5      2      2  
+      IGen1 KGens1 KGens2 KGens3  + IGen1*CGensInA1*KGens1 KGens2 KGens3  +
+      -------------------------------------------------------------------------
+           5             3      2        3                2      3      2  
+      IGen1 KGens1*KGens2 KGens3  + IGen1 CGensInA1*KGens1 KGens2 KGens3  +
+      -------------------------------------------------------------------------
+                     2      3      3      2        2      5             3  
+      IGen1*CGensInA1 KGens1 KGens2 KGens3  + IGen1 KGens1 KGens2*KGens3  -
+      -------------------------------------------------------------------------
+           4      2      2      3        2                3      2      3  
+      IGen1 KGens1 KGens2 KGens3  + IGen1 CGensInA1*KGens1 KGens2 KGens3  +
+      -------------------------------------------------------------------------
+           4                3      3        2         2             3      3  
+      IGen1 CGensInA1*KGens2 KGens3  + IGen1 CGensInA1 KGens1*KGens2 KGens3  +
+      -------------------------------------------------------------------------
+               3      2      3      3        3      3             4  
+      CGensInA1 KGens1 KGens2 KGens3  + IGen1 KGens1 KGens2*KGens3  -
+      -------------------------------------------------------------------------
+           5      2      4        3                       2      4  
+      IGen1 KGens2 KGens3  + IGen1 CGensInA1*KGens1*KGens2 KGens3  +
+      -------------------------------------------------------------------------
+                     3      3      4        4                    5  
+      IGen1*CGensInA1 KGens2 KGens3  + IGen1 KGens1*KGens2*KGens3  -
+      -------------------------------------------------------------------------
+           3      2      6        4      7               4      4        
+      IGen1 KGens1 KGens3  - IGen1 KGens3  + IGen1*KGens1 KGens2 KGens3 -
+      -------------------------------------------------------------------------
+            5      3      2        2      2      4      2  
+      KGens1 KGens2 KGens3  + IGen1 KGens1 KGens2 KGens3  +
+      -------------------------------------------------------------------------
+                      3      4      2               3      3      3  
+      CGensInA1*KGens1 KGens2 KGens3  - IGen1*KGens1 KGens2 KGens3  +
+      -------------------------------------------------------------------------
+           3      4      3                                4      3  
+      IGen1 KGens2 KGens3  + IGen1*CGensInA1*KGens1*KGens2 KGens3  +
+      -------------------------------------------------------------------------
+            4      2      4        2             3      4  
+      KGens1 KGens2 KGens3  - IGen1 KGens1*KGens2 KGens3  +
+      -------------------------------------------------------------------------
+                      2      3      4            2      4      4  
+      CGensInA1*KGens1 KGens2 KGens3  + CGensInA1 KGens2 KGens3  +
+      -------------------------------------------------------------------------
+                  2      2      5                         3      5  
+      IGen1*KGens1 KGens2 KGens3  + IGen1*CGensInA1*KGens2 KGens3  +
+      -------------------------------------------------------------------------
+           2      2      6                5      3         4      5
+      IGen1 KGens2 KGens3  + KGens1*KGens2 KGens3  - KGens2 KGens3 }
+
+o32 : List
+
+i33 : #o32
+
+o33 = 1
+
+i34 : toString (o32#0)
+
+o34 = IGen1^5*CGensInA1^2*KGens1^5*KGens2+IGen1^8*CGensInA1*KGens1^2*KGens2*
+      KGens3+IGen1^7*CGensInA1^2*KGens1*KGens2*KGens3^2+IGen1^8*CGensInA1*
+      KGens1*KGens3^3+IGen1^4*CGensInA1*KGens1^5*KGens2^2-IGen1^5*KGens1^5*
+      KGens2*KGens3+IGen1^7*KGens1^2*KGens2^2*KGens3+IGen1^5*CGensInA1*KGens1^3
+      *KGens2^2*KGens3+IGen1^3*CGensInA1^2*KGens1^4*KGens2^2*KGens3+IGen1^4*
+      CGensInA1*KGens1^4*KGens2*KGens3^2+IGen1^8*KGens2^2*KGens3^2+IGen1^6*
+      CGensInA1*KGens1*KGens2^2*KGens3^2+IGen1^4*CGensInA1^2*KGens1^2*KGens2^2*
+      KGens3^2+IGen1^5*KGens1^4*KGens3^3-IGen1^7*KGens1*KGens2*KGens3^3+IGen1^5
+      *CGensInA1*KGens1^2*KGens2*KGens3^3+IGen1^5*CGensInA1^2*KGens2^2*KGens3^3
+      +IGen1^6*KGens1^2*KGens3^4+IGen1^6*CGensInA1*KGens2*KGens3^4+IGen1^7*
+      KGens3^5+IGen1^2*CGensInA1*KGens1^4*KGens2^3*KGens3+CGensInA1^2*KGens1^5*
+      KGens2^3*KGens3-IGen1^3*KGens1^4*KGens2^2*KGens3^2+IGen1*CGensInA1*KGens1
+      ^5*KGens2^2*KGens3^2+IGen1^5*KGens1*KGens2^3*KGens3^2+IGen1^3*CGensInA1*
+      KGens1^2*KGens2^3*KGens3^2+IGen1*CGensInA1^2*KGens1^3*KGens2^3*KGens3^2+
+      IGen1^2*KGens1^5*KGens2*KGens3^3-IGen1^4*KGens1^2*KGens2^2*KGens3^3+IGen1
+      ^2*CGensInA1*KGens1^3*KGens2^2*KGens3^3+IGen1^4*CGensInA1*KGens2^3*KGens3
+      ^3+IGen1^2*CGensInA1^2*KGens1*KGens2^3*KGens3^3+CGensInA1^3*KGens1^2*
+      KGens2^3*KGens3^3+IGen1^3*KGens1^3*KGens2*KGens3^4-IGen1^5*KGens2^2*
+      KGens3^4+IGen1^3*CGensInA1*KGens1*KGens2^2*KGens3^4+IGen1*CGensInA1^3*
+      KGens2^3*KGens3^4+IGen1^4*KGens1*KGens2*KGens3^5-IGen1^3*KGens1^2*KGens3^
+      6-IGen1^4*KGens3^7+IGen1*KGens1^4*KGens2^4*KGens3-KGens1^5*KGens2^3*
+      KGens3^2+IGen1^2*KGens1^2*KGens2^4*KGens3^2+CGensInA1*KGens1^3*KGens2^4*
+      KGens3^2-IGen1*KGens1^3*KGens2^3*KGens3^3+IGen1^3*KGens2^4*KGens3^3+IGen1
+      *CGensInA1*KGens1*KGens2^4*KGens3^3+KGens1^4*KGens2^2*KGens3^4-IGen1^2*
+      KGens1*KGens2^3*KGens3^4+CGensInA1*KGens1^2*KGens2^3*KGens3^4+CGensInA1^2
+      *KGens2^4*KGens3^4+IGen1*KGens1^2*KGens2^2*KGens3^5+IGen1*CGensInA1*
+      KGens2^3*KGens3^5+IGen1^2*KGens2^2*KGens3^6+KGens1*KGens2^5*KGens3^3-
+      KGens2^4*KGens3^5
+
+i35 : H = map(ZZ/3[a,b,c,d,e], S1, {a,b,c,d,e})
+
+          ZZ
+o35 = map(--[a, b, c, d, e],S1,{a, b, c, d, e})
+           3
+
+              ZZ
+o35 : RingMap --[a, b, c, d, e] <--- S1
+               3
+
+i36 : H(o32#0)
+
+       5 2 5     8   2       7 2     2    8     3    4   5 2    5 5     
+o36 = a b c d + a b*c d*e + a b c*d*e  + a b*c*e  + a b*c d  - a c d*e +
+      -------------------------------------------------------------------------
+       7 2 2     5   3 2     3 2 4 2     4   4   2    8 2 2    6     2 2  
+      a c d e + a b*c d e + a b c d e + a b*c d*e  + a d e  + a b*c*d e  +
+      -------------------------------------------------------------------------
+       4 2 2 2 2    5 4 3    7     3    5   2   3    5 2 2 3    6 2 4  
+      a b c d e  + a c e  - a c*d*e  + a b*c d*e  + a b d e  + a c e  +
+      -------------------------------------------------------------------------
+       6     4    7 5    2   4 3     2 5 3     3 4 2 2        5 2 2    5   3 2
+      a b*d*e  + a e  + a b*c d e + b c d e - a c d e  + a*b*c d e  + a c*d e 
+      -------------------------------------------------------------------------
+         3   2 3 2      2 3 3 2    2 5   3    4 2 2 3    2   3 2 3    4   3 3  
+      + a b*c d e  + a*b c d e  + a c d*e  - a c d e  + a b*c d e  + a b*d e  +
+      -------------------------------------------------------------------------
+       2 2   3 3    3 2 3 3    3 3   4    5 2 4    3     2 4      3 3 4  
+      a b c*d e  + b c d e  + a c d*e  - a d e  + a b*c*d e  + a*b d e  +
+      -------------------------------------------------------------------------
+       4     5    3 2 6    4 7      4 4     5 3 2    2 2 4 2      3 4 2  
+      a c*d*e  - a c e  - a e  + a*c d e - c d e  + a c d e  + b*c d e  -
+      -------------------------------------------------------------------------
+         3 3 3    3 4 3          4 3    4 2 4    2   3 4      2 3 4    2 4 4  
+      a*c d e  + a d e  + a*b*c*d e  + c d e  - a c*d e  + b*c d e  + b d e  +
+      -------------------------------------------------------------------------
+         2 2 5        3 5    2 2 6      5 3    4 5
+      a*c d e  + a*b*d e  + a d e  + c*d e  - d e
+
+      ZZ
+o36 : --[a, b, c, d, e]
+       3
+
+i37 : toString H(o32#0)
+
+o37 = a^5*b^2*c^5*d+a^8*b*c^2*d*e+a^7*b^2*c*d*e^2+a^8*b*c*e^3+a^4*b*c^5*d^2-a^5
+      *c^5*d*e+a^7*c^2*d^2*e+a^5*b*c^3*d^2*e+a^3*b^2*c^4*d^2*e+a^4*b*c^4*d*e^2+
+      a^8*d^2*e^2+a^6*b*c*d^2*e^2+a^4*b^2*c^2*d^2*e^2+a^5*c^4*e^3-a^7*c*d*e^3+a
+      ^5*b*c^2*d*e^3+a^5*b^2*d^2*e^3+a^6*c^2*e^4+a^6*b*d*e^4+a^7*e^5+a^2*b*c^4*
+      d^3*e+b^2*c^5*d^3*e-a^3*c^4*d^2*e^2+a*b*c^5*d^2*e^2+a^5*c*d^3*e^2+a^3*b*c
+      ^2*d^3*e^2+a*b^2*c^3*d^3*e^2+a^2*c^5*d*e^3-a^4*c^2*d^2*e^3+a^2*b*c^3*d^2*
+      e^3+a^4*b*d^3*e^3+a^2*b^2*c*d^3*e^3+b^3*c^2*d^3*e^3+a^3*c^3*d*e^4-a^5*d^2
+      *e^4+a^3*b*c*d^2*e^4+a*b^3*d^3*e^4+a^4*c*d*e^5-a^3*c^2*e^6-a^4*e^7+a*c^4*
+      d^4*e-c^5*d^3*e^2+a^2*c^2*d^4*e^2+b*c^3*d^4*e^2-a*c^3*d^3*e^3+a^3*d^4*e^3
+      +a*b*c*d^4*e^3+c^4*d^2*e^4-a^2*c*d^3*e^4+b*c^2*d^3*e^4+b^2*d^4*e^4+a*c^2*
+      d^2*e^5+a*b*d^3*e^5+a^2*d^2*e^6+c*d^5*e^3-d^4*e^5
+
+i38 : exit
+
+Process M2 finished
