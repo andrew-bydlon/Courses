@@ -1,0 +1,2 @@
+How many cards would you like dealt? 10
+[[2, 'Diamond'], [9, 'Heart'], [14, 'Diamond'], [4, 'Spade'], [9, 'Club'], [7, 'Diamond'], [2, 'Heart'], [14, 'Spade'], [10, 'Club'], [3, 'Diamond']]

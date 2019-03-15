@@ -1,0 +1,7 @@
+Type a string of characters: My Boat Boat Boat
+ty Boat Boat BoaM
+Enter the string you would like to replace: Boat
+Enter its replacement: Shipss
+My Boat Shipss Shipss
+
+Process finished with exit code 0

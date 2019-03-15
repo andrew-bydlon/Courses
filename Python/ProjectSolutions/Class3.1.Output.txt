@@ -1,0 +1,8 @@
+Type a string of characters: This is a string of characters
+Your string has length 30
+Type what you are looking for: char
+It is True that char occurs in This is a string of characters
+Enter an integer to partition your string: 5
+This $#@!cters
+
+Process finished with exit code 0

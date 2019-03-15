@@ -1,0 +1,5 @@
+Enter your ellipse major axis: 10
+Enter your ellipse minor axis: 5
+The focal length of your ellipse is 8.660254037844387
+The area of your ellipse is 157.07963267948966
+The perimeter of your ellipse is 49.6729413289805

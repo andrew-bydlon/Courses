@@ -1,0 +1,8 @@
+How much money would you like to invest? 1000
+What is the annual rate of interest (express 5% as .05)? .05
+How many times per year is the interest compounded? 4
+For how many years will you keep this investment? 10
+How much money would you like to have after 10.0 years?2000
+It is False that you will have the money after 10.0 years.  The required interest rate to achieve your goal is 6.99%
+
+Process finished with exit code 0

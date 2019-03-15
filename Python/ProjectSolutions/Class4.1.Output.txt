@@ -1,0 +1,38 @@
+Enter your new password: 2password
+Enter your password again: 2password
+Your passwords must begin with a letter!
+
+Process finished with exit code 0
+
+
+
+Enter your new password: passwd
+Enter your password again: passwd
+Your password must be at least 8 characters!
+
+Process finished with exit code 0
+
+
+
+Enter your new password: pass
+Enter your password again: word
+Your passwords are not the same!
+
+Process finished with exit code 0
+
+
+
+Enter your new password: password
+Enter your password again: password
+Your password must contain @ or #
+
+Process finished with exit code 0
+
+
+
+Enter your new password: p@ssword
+Enter your password again: p@ssword
+Great password!
+
+Process finished with exit code 0
+

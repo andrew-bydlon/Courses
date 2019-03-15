@@ -1,0 +1,12 @@
+What is your rate of return? .05
+What is your compounding frequency? 4
+Enter a principal investment.  Type 'q' to quit. 1000
+How many years did you keep this investment? 20
+Enter a principal investment.  Type 'q' to quit. 200
+How many years did you keep this investment? 10
+Enter a principal investment.  Type 'q' to quit. 10000
+How many years did you keep this investment? 5
+Enter a principal investment.  Type 'q' to quit. q
+Your largest investment is $ 12820.372317
+Your smallest investment is $ 328.723893
+Your total investment is $ 15850.581151

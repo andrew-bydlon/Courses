@@ -1,0 +1,7 @@
+How much money would you like to invest? 1000
+What is the annual rate of interest (express 5% as .05)? .05
+How many times per year is the interest compounded? 12
+For how many years will you keep this investment? 10
+Your annuity after 10.0 years is $ 1647.01 . You have earned $ 647.01
+
+Process finished with exit code 0

@@ -1,0 +1,106 @@
+Enter an integer: 100
+Enter an divisor: 5
+Enter another divisor: 10
+1
+2
+3
+4
+Multiple of first divisor.
+6
+7
+8
+9
+:)
+11
+12
+13
+14
+Multiple of first divisor.
+16
+17
+18
+19
+:)
+21
+22
+23
+24
+Multiple of first divisor.
+26
+27
+28
+29
+:)
+31
+32
+33
+34
+Multiple of first divisor.
+36
+37
+38
+39
+:)
+41
+42
+43
+44
+Multiple of first divisor.
+46
+47
+48
+49
+:)
+51
+52
+53
+54
+Multiple of first divisor.
+56
+57
+58
+59
+:)
+61
+62
+63
+64
+Multiple of first divisor.
+66
+67
+68
+69
+:)
+71
+72
+73
+74
+Multiple of first divisor.
+76
+77
+78
+79
+:)
+81
+82
+83
+84
+Multiple of first divisor.
+86
+87
+88
+89
+:)
+91
+92
+93
+94
+Multiple of first divisor.
+96
+97
+98
+99
+:)
+
+Process finished with exit code 0
+

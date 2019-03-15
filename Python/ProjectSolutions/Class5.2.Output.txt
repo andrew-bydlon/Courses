@@ -1,0 +1,5 @@
+Enter some integers separated by spaces: 2 3 5 1 2 4 3 2 1 124123
+Enter an integer to search for: 2
+The positions of 2 are [0, 4, 7]
+Enter some integers separated by spaces: 2 3 5 1 2 4 3 2 1 124123
+The position list of 2 in the reversed list is [2, 5, 9]
