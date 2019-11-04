@@ -1,0 +1,20 @@
+Definitions:
+Path Integral for a piecewise smooth curve ****
+Analytic @ z_0                             ****
+
+Theorem Statements:
+CR                                  ****
+Goursat's Theorem
+Cauchy's Theorem in the Disc
+Cauchy's Integral Theorem           ****
+Morera's Theorem
+Symmetry/Schwarz Reflection Principle
+Residue Theorem
+
+Problems:
+
+Verify holomorphicity using CR equations.    ****
+Prove Louiville using Cauchy's Inequality.
+Radius of Convergence of a power series
+Integrals with Cauchy (e^{\frac{1}{z^2}})    ****
+Integrals with Residues
